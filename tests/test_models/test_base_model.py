@@ -78,39 +78,41 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(inst.name, "Holberton")
         self.assertEqual(inst.number, 89)
 
+
     def test_datetime_attributes(self):
-        """Test that two BaseModel instances have different datetime objects
-        and that upon creation have identical updated_at and created_at
-        value."""
-        tic = datetime.now()
-        inst1 = BaseModel()
-        toc = datetime.now()
-        inst1 = BaseModel()
-        time.sleep(0.1)  # Ensure sufficient time difference
-        toc = datetime.now()
-        
-        # Check created_at attribute of first instance
-        self.assertTrue(tic <= inst1.created_at <= toc,
-                        "created_at is not within expected range")
+     """Test that two BaseModel instances have different datetime objects
+     and that upon creation have identical updated_at and created_at
+     value."""
+    # Create the first BaseModel instance and record the time
+    tic1 = datetime.now()
+    inst1 = BaseModel()
+    toc1 = datetime.now()
 
-        # Create second instance and get timestamp
-        tic = datetime.now()
-        inst2 = BaseModel()
-        toc = datetime.now()
-        
-        # Check created_at attribute of second instance
-        self.assertTrue(tic <= inst2.created_at <= toc,
-                        "created_at is not within expected range")
+    # Create the second BaseModel instance and record the time
+    time.sleep(0.1)  # Wait for a short time to ensure different timestamps
+    tic2 = datetime.now()
+    inst2 = BaseModel()
+    toc2 = datetime.now()
 
-        # Check updated_at and created_at attributes
-        self.assertEqual(inst1.created_at, inst1.updated_at,
-                         "created_at and updated_at should be equal")
-        self.assertEqual(inst2.created_at, inst2.updated_at,
-                         "created_at and updated_at should be equal")
-        self.assertNotEqual(inst1.created_at, inst2.created_at,
-                            "created_at should be different between instances")
-        self.assertNotEqual(inst1.updated_at, inst2.updated_at,
-                            "updated_at should be different between instances")
+    # Check that created_at attribute is between the recorded times
+    self.assertTrue(tic1 <= inst1.created_at <= toc1,
+                    "created_at is not within expected range for inst1")
+    self.assertTrue(tic2 <= inst2.created_at <= toc2,
+                    "created_at is not within expected range for inst2")
+
+    # Check that created_at and updated_at attributes are equal upon creation
+    self.assertEqual(inst1.created_at, inst1.updated_at,
+                     "created_at and updated_at should be equal for inst1")
+    self.assertEqual(inst2.created_at, inst2.updated_at,
+                     "created_at and updated_at should be equal for inst2")
+
+    # Check that created_at and updated_at attributes are different between instances
+    self.assertNotEqual(inst1.created_at, inst2.created_at,
+                        "created_at should be different between instances")
+    self.assertNotEqual(inst1.updated_at, inst2.updated_at,
+                        "updated_at should be different between instances")
+
+
 
     def test_uuid(self):
         """Test that id is a valid uuid"""
