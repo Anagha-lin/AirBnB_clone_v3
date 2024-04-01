@@ -12,105 +12,105 @@ module_doc = models.base_model.__doc__
 
 
 class TestBaseModelDocs(unittest.TestCase):
-    """Tests to check the documentation and style of BaseModel class"""
+	"""Tests to check the documentation and style of BaseModel class"""
 
-    @classmethod
-    def setUpClass(self):
-        """Set up for docstring tests"""
-        self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
+	@classmethod
+	def setUpClass(self):
+	"""Set up for docstring tests"""
+	self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
 
-    def test_pep8_conformance(self):
-        """Test that models/base_model.py conforms to PEP8."""
-        for path in ['models/base_model.py',
-                     'tests/test_models/test_base_model.py']:
-            with self.subTest(path=path):
-                errors = pycodestyle.Checker(path).check_all()
-                self.assertEqual(errors, 0)
+	def test_pep8_conformance(self):
+	"""Test that models/base_model.py conforms to PEP8."""
+	for path in ['models/base_model.py',
+			'tests/test_models/test_base_model.py']:
+		with self.subTest(path=path):
+		errors = pycodestyle.Checker(path).check_all()
+		self.assertEqual(errors, 0)
 
-    def test_module_docstring(self):
-        """Test for the existence of module docstring"""
-        self.assertIsNot(module_doc, None,
-                         "base_model.py needs a docstring")
-        self.assertTrue(len(module_doc) > 1,
-                        "base_model.py needs a docstring")
+	def test_module_docstring(self):
+	"""Test for the existence of module docstring"""
+	self.assertIsNot(module_doc, None,
+			"base_model.py needs a docstring")
+	self.assertTrue(len(module_doc) > 1,
+			"base_model.py needs a docstring")
 
-    def test_class_docstring(self):
-        """Test for the BaseModel class docstring"""
-        self.assertIsNot(BaseModel.__doc__, None,
-                         "BaseModel class needs a docstring")
-        self.assertTrue(len(BaseModel.__doc__) >= 1,
-                        "BaseModel class needs a docstring")
+	def test_class_docstring(self):
+	"""Test for the BaseModel class docstring"""
+	self.assertIsNot(BaseModel.__doc__, None,
+			"BaseModel class needs a docstring")
+	self.assertTrue(len(BaseModel.__doc__) >= 1,
+			"BaseModel class needs a docstring")
 
-    def test_func_docstrings(self):
-        """Test for the presence of docstrings in BaseModel methods"""
-        for func in self.base_funcs:
-            with self.subTest(function=func):
-                self.assertIsNot(
-                    func[1].__doc__,
-                    None,
-                    "{:s} method needs a docstring".format(func[0])
-                )
-                self.assertTrue(
+	def test_func_docstrings(self):
+	"""Test for the presence of docstrings in BaseModel methods"""
+	for func in self.base_funcs:
+	with self.subTest(function=func):
+		self.assertIsNot(
+			func[1].__doc__,
+			None,
+			"{:s} method needs a docstring".format(func[0])
+				)
+		self.assertTrue(
                     len(func[1].__doc__) > 1,
-                    "{:s} method needs a docstring".format(func[0])
-                )
+			"{:s} method needs a docstring".format(func[0])
+				)
 
 
 class TestBaseModel(unittest.TestCase):
-    """Test the BaseModel class"""
-    def test_instantiation(self):
-        """Test that object is correctly created"""
-        inst = BaseModel()
-        self.assertIs(type(inst), BaseModel)
-        inst.name = "Holberton"
-        inst.number = 89
-        attrs_types = {
-            "id": str,
-            "created_at": datetime,
-            "updated_at": datetime,
-            "name": str,
-            "number": int
-        }
-        for attr, typ in attrs_types.items():
-            with self.subTest(attr=attr, typ=typ):
-                self.assertIn(attr, inst.__dict__)
-                self.assertIs(type(inst.__dict__[attr]), typ)
-        self.assertEqual(inst.name, "Holberton")
-        self.assertEqual(inst.number, 89)
+	"""Test the BaseModel class"""
+	def test_instantiation(self):
+	"""Test that object is correctly created"""
+		inst = BaseModel()
+		self.assertIs(type(inst), BaseModel)
+		inst.name = "Holberton"
+		inst.number = 89
+		attrs_types = {
+		"id": str,
+		"created_at": datetime,
+		"updated_at": datetime,
+		"name": str,
+		"number": int
+				}
+	for attr, typ in attrs_types.items():
+	with self.subTest(attr=attr, typ=typ):
+		self.assertIn(attr, inst.__dict__)
+		self.assertIs(type(inst.__dict__[attr]), typ)
+		self.assertEqual(inst.name, "Holberton")
+		self.assertEqual(inst.number, 89)
 
 
-    def test_datetime_attributes(self):
-     """Test that two BaseModel instances have different datetime objects
-     and that upon creation have identical updated_at and created_at
-     value."""
-    # Create the first BaseModel instance and record the time
-    tic1 = datetime.now()
-    inst1 = BaseModel()
-    toc1 = datetime.now()
+	def test_datetime_attributes(self):
+	"""Test that two BaseModel instances have different datetime objects
+	and that upon creation have identical updated_at and created_at
+	value."""
+	# Create the first BaseModel instance and record the time
+	tic1 = datetime.now()
+	inst1 = BaseModel()
+	toc1 = datetime.now()
 
-    # Create the second BaseModel instance and record the time
-    time.sleep(0.1)  # Wait for a short time to ensure different timestamps
-    tic2 = datetime.now()
-    inst2 = BaseModel()
-    toc2 = datetime.now()
+	# Create the second BaseModel instance and record the time
+	time.sleep(0.1)  # Wait for a short time to ensure different timestamps
+	tic2 = datetime.now()
+	inst2 = BaseModel()
+	toc2 = datetime.now()
 
-    # Check that created_at attribute is between the recorded times
-    self.assertTrue(tic1 <= inst1.created_at <= toc1,
-                    "created_at is not within expected range for inst1")
-    self.assertTrue(tic2 <= inst2.created_at <= toc2,
-                    "created_at is not within expected range for inst2")
+	# Check that created_at attribute is between the recorded times
+	self.assertTrue(tic1 <= inst1.created_at <= toc1,
+			"created_at is not within expected range for inst1")
+	self.assertTrue(tic2 <= inst2.created_at <= toc2,
+			"created_at is not within expected range for inst2")
 
-    # Check that created_at and updated_at attributes are equal upon creation
-    self.assertEqual(inst1.created_at, inst1.updated_at,
-                     "created_at and updated_at should be equal for inst1")
-    self.assertEqual(inst2.created_at, inst2.updated_at,
-                     "created_at and updated_at should be equal for inst2")
+	# Check that created_at and updated_at attributes are equal upon creation
+	self.assertEqual(inst1.created_at, inst1.updated_at,
+			"created_at and updated_at should be equal for inst1")
+	self.assertEqual(inst2.created_at, inst2.updated_at,
+			"created_at and updated_at should be equal for inst2")
 
-    # Check that created_at and updated_at attributes are different between instances
-    self.assertNotEqual(inst1.created_at, inst2.created_at,
-                        "created_at should be different between instances")
-    self.assertNotEqual(inst1.updated_at, inst2.updated_at,
-                        "updated_at should be different between instances")
+	# Check that created_at and updated_at attributes are different between instances
+	self.assertNotEqual(inst1.created_at, inst2.created_at,
+			"created_at should be different between instances")
+	self.assertNotEqual(inst1.updated_at, inst2.updated_at,
+			"updated_at should be different between instances")
 
 
 
