@@ -66,6 +66,14 @@ test_file_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+class TestFileStorage:
+    def test_get(self):
+        """Write tests to ensure get method retrieves objects correctly"""
+        pass
+
+    def test_count(self):
+        """Write tests to ensure count method returns correct counts"""
+        pass
 
 
 class TestFileStorage(unittest.TestCase):
