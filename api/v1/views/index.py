@@ -1,20 +1,19 @@
 #!/usr/bin/python3
-"""Defines views for the Airbnb API."""
+"""Views for Airbnb Api."""
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage
 
-# Define a route /status within the app_views blueprint
+# Create route /status on the object app_views
 @app_views.route('/status', strict_slashes=False)
-def api_status():
-    """Returns a JSON response indicating the status of the API."""
+def status():
+    """Returns a JSON response for RESTful Api."""
     return jsonify({"status": "OK"})
 
-
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def get_statistics():
+def get_stats():
     """
-    Retrieves the count of each object type.
+    Retrieves the number of each objects by type.
     """
     stats = {
         'amenities': storage.count('Amenity'),
@@ -25,7 +24,6 @@ def get_statistics():
         'users': storage.count('User')
     }
     return jsonify(stats)
-
 
 if __name__ == "__main__":
     pass
